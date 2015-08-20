@@ -2,20 +2,21 @@
 
 - Install from [userstyles.org](http://userstyles.org/styles/37035) (with customization options) or [manually](https://raw.githubusercontent.com/StylishThemes/GitHub-Dark/master/github-dark.css).
 - Stylish is available for [Firefox](https://addons.mozilla.org/en-US/firefox/addon/2108/), [Chrome](https://chrome.google.com/extensions/detail/fjnbnpbmkenffdnngjfgmeleoegfcffe), [Opera](https://addons.opera.com/en/extensions/details/stylish/), [Safari](http://sobolev.us/stylish/) and [Firefox Mobile](https://addons.mozilla.org/en-US/firefox/addon/2108/).
+- Includes styling for [Octotree](https://github.com/buunguyen/octotree/#octotree) &amp; [ZenHub](https://www.zenhub.io/).
 - Use the [grunt build process](https://github.com/StylishThemes/GitHub-Dark/wiki/Build) to customize your GitHub Dark theme.
 - Please refer to the [installation documentation](https://github.com/StylishThemes/GitHub-Dark/wiki/Install) for more details.
 
 ## Preview
-![GitHub Dark preview](http://i.imgur.com/9ChgiR6.png)
+![GitHub Dark preview](https://cloud.githubusercontent.com/assets/136959/9365834/60f9d916-4679-11e5-9859-b8efa106feef.png)
 
-## [Available Syntax Highlighting Themes](http://stylishthemes.github.io/GitHub-Dark/)
+## [Available Syntax Highlighting Themes](https://stylishthemes.github.io/GitHub-Dark/)
 
-|   |   |   |   |   |
-| --- | --- | --- | --- | --- |
-| Ambiance | Chaos | Clouds Midnight | Cobalt | Idle Fingers* |
-| Kr Theme | Merbivore | Merbivore Soft | Mono Industrial | Monokai* |
-| Pastel on Dark* | Solarized Dark* | Terminal | Tomorrow Night* | Tomorrow Night Blue* |
-| Tomorrow Night Bright* | Tomorrow Night Eigthies* | Twilight* | Vibrant Ink | |
+|                      |                        |                          |                 |                       |
+|----------------------|------------------------|--------------------------|-----------------|-----------------------|
+| Ambiance             | Chaos                  | Clouds Midnight          | Cobalt          | Idle Fingers*         |
+| Kr Theme             | Merbivore              | Merbivore Soft           | Mono Industrial | Mono Industrial Clear |
+| Monokai*             | Pastel on Dark*        | Solarized Dark*          | Terminal        | Tomorrow Night*       |
+| Tomorrow Night Blue* | Tomorrow Night Bright* | Tomorrow Night Eigthies* | Twilight*       |                       |
 
 \* Supports [Jupyter notebook syntax highlighting](https://github.com/sujitpal/statlearning-notebooks/blob/master/src/chapter2.ipynb)
 
@@ -37,41 +38,33 @@ Thanks to all that have [contributed](https://github.com/StylishThemes/GitHub-Da
 
 See the [full change log](https://github.com/StylishThemes/GitHub-Dark/wiki).
 
-#### Version 1.13.0 (5/15/2015)
+#### Version 1.14.11 (8/19/2015)
 
-* Add Jupyter notebook support
-  * Style fixes
-  * Use same shade colors for I/O labels
-  * Fix inline code blocks
-  * Fix background color of graphs (using a filter invert style, so the original colors will not be seen).
-  * Add syntax highlighting (pygments) - see ["Available Syntax Highlight Themes"](https://github.com/StylishThemes/GitHub-Dark#available-syntax-highlighting-themes) to see which themes are supported.
-* File View: Fix delete button hover.
-* Global:
-  * Update filter rules.
-  * Fix "Search GitHub" focus box shadow.
-  * Various tweaks.
-* Organizations: Fix team names.
-* Gist: Fix comment box action hover.
-* ZenHub: Add burndown page styling.
-* Status page: use high-res spinner.
-* Markdown: Fix links in code tags.
+* Build:
+  * Add perfectionist to build to allow reformatting of selectors (use `grunt clean` to reformat).
+  * Reformat css to fit 80 columns. Fixes [issue #239](https://github.com/StylishThemes/GitHub-Dark/issues/239).
+* Update the timeline line hack.
+* Pull requests: fix a white border in teh checks box.
+* Discussions: Fix a multicolored header.
 
-#### Version 1.12.8 (5/8/2015)
+#### Version 1.14.10 (8/5/2015)
 
-* ZenHub: give card content some contrast.
-* Discussions
-  * Fix inline comment form.
-  * Update hack for the timeline line.
-* Renderers: add styling to jupyter pages. See [issue #230](https://github.com/StylishThemes/GitHub-Dark/issues/230).
-* Gist: add search results styling. Fixes [issue #231](https://github.com/StylishThemes/GitHub-Dark/issues/231).
-* Fix typo in class name for yellow flash message. Thanks [roblabla](https://github.com/roblabla)! [pull #232](https://github.com/StylishThemes/GitHub-Dark/pull/232).
+* Readme: Better theme table.
+* Discussions: Fix triangle beside avatars.
+* Markdown:
+  * Make bold text slightly brighter. Fixes [issue #250](https://github.com/StylishThemes/GitHub-Dark/issues/250).
+  * Fix bold links.
+  * Make sure to not change header colors.
+  * Fix overflow on single line code blocks. Fixes [issue #239](https://github.com/StylishThemes/GitHub-Dark/issues/239).
+* Guides: Fix links in header.
+* Gist: Fix file icon background.
+* Branches: Flat footer background.
+* Build: include updated build option.
 
-#### Version 1.12.7 (5/5/2015)
+#### Version 1.14.9 (7/30/2015)
 
-* Various tweaks to code blocks in markdown.
-* More tweaks to code block backgrounds.
-* Sticky sidebar
-  * Add `position: sticky` (only works in Firefox at the moment).
-  * Add z-index.
-  * Applied to repo, blog & gists.
-* Organizations: fix team member ellipsis.
+* Organization:
+  * Darken selected tab top border. See [issue #247](https://github.com/StylishThemes/GitHub-Dark/issues/247).
+  * Numerous tweaks to the new headers. Fixes [issue #247](https://github.com/StylishThemes/GitHub-Dark/issues/247).
+* Diff: Fix GeoJSON diffs. See [issue #242](https://github.com/StylishThemes/GitHub-Dark/issues/242)
+* Pull requests: Update branch action class. Fixes [issue #249](https://github.com/StylishThemes/GitHub-Dark/issues/249).

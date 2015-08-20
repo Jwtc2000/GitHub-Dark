@@ -9,7 +9,8 @@ module.exports = function (grunt) {
         console.info('build.json not found - using defaults');
         config = {
             'theme'    : 'Twilight',
-            'color'    : '#008080',
+            'color'    : '#4183C4',
+            'font'     : 'Menlo',
             'image'    : 'url(https://raw.githubusercontent.com/StylishThemes/GitHub-Dark/master/images/backgrounds/bg-tile1.png)',
             'tiled'    : true,
             'attach'   : 'scroll',
@@ -26,9 +27,10 @@ module.exports = function (grunt) {
     config.sourceFile = 'github-dark.css';
     file = getTheme();
     // setting "ace" to an empty string, or "default" will leave the default GitHub-base16 theme in place, with a dark background
+    // using theme src files until we can figure out why cssmin is removing 2/3 of the definitions - see #240
     config.themeFile = file === '' || file === 'default' ? '' : 'themes/' + file + '.min.css';
     // build file name
-    config.buildFile = 'github-dark-' + (file ? file : 'default') + '-' + config.color.replace(/[^\d\w]/g, '') + '.build.min.css';
+    config.buildFile = 'github-dark-' + (file || 'default') + '-' + config.color.replace(/[^\d\w]/g, '') + '.build.min.css';
     // background options
     config.bgOptions = config.tiled ?
         'background-repeat: repeat !important; background-size: auto !important; background-position: left top !important;' :
@@ -59,11 +61,14 @@ module.exports = function (grunt) {
         pattern: /\/\*\[\[base-color\]\]\*\/ #\w{3,6}/g,
         replacement: config.color
     },{
-        pattern: /\/\*\[\[tab-size\]\]\*\/ 4/g,
+        pattern: '/*[[font-choice]]*/',
+        replacement: config.font
+    },{
+        pattern: /\/\*\[\[tab-size\]\]\*\/ \d+/g,
         replacement: config.tab
     },{
         // remove default syntax themes AND closing bracket
-        pattern: /\s+\/\* grunt build - remove to end of file(.*(\n|\r))+}$/m,
+        pattern: /\s+\/\* grunt build - remove to end of file(.*(\n|\r))+\}$/m,
         replacement: ''
     },{
         pattern: '/*[[syntax-theme]]*/',
@@ -85,11 +90,11 @@ module.exports = function (grunt) {
         pattern: /\/\*\[\[base-color\]\]\*\/ #\w{3,6}/g,
         replacement: '/*[[base-color]]*/'
     },{
-        pattern: /\/\*\[\[tab-size\]\]\*\/ 4/g,
+        pattern: /\/\*\[\[tab-size\]\]\*\/ \d+/g,
         replacement: '/*[[tab-size]]*/'
     },{
         // remove default syntax theme AND closing bracket
-        pattern: /\s+\/\* grunt build - remove to end of file(.*(\n|\r))+}$/m,
+        pattern: /\s+\/\* grunt build - remove to end of file(.*(\n|\r))+\}$/m,
         replacement: ''
     }];
 
@@ -122,7 +127,22 @@ module.exports = function (grunt) {
             },
             fix: {
                 files:   { '<%= config.buildFile %>' : '<%= config.buildFile %>' },
-                options: { replacements: [{ pattern: /\;\:\/\*\[\[/gm, replacement: ';/*[[' }]}
+                options: { replacements: [{ pattern: /\;\:\/\*\[\[/gm, replacement: ';/*[[' }] }
+            },
+            min: {
+                files:   { '<%= config.buildFile %>' : '<%= config.buildFile %>' },
+                options: { replacements: [{ pattern: /__ESCAPED_SOURCE_END_CLEAN_CSS__/g, replacement: ''}] }
+            },
+            // cleanup perfectionist comments
+            cleanup: {
+                files:   { '<%= config.sourceFile %>' : '<%= config.sourceFile %>' },
+                options: {
+                    replacements: [
+                        { pattern: /\{\/\*\!/g, replacement: '{\n /*!' },
+                        { pattern: /\/\* /g, replacement: '\n  /* ' },
+                        { pattern: /(\s+)?\n(\s+)?\n/gm, replacement: '\n' }
+                    ]
+                }
             }
         },
         clean: {
@@ -130,10 +150,18 @@ module.exports = function (grunt) {
             src: [ 'themes/*.min.css' ]
           }
         },
+        exec: {
+            // --maxSelectorLength 80 (default)
+            // --maxAtRuleLength 250 is used to keep the @-moz-document rule all on one line
+            perfectionist: 'perfectionist <%= config.sourceFile %> <%= config.sourceFile %> --indentSize 2 --maxAtRuleLength 250'
+        },
         cssmin: {
             minify: {
                 files:   { '<%= config.buildFile %>' : '<%= config.buildFile %>' },
-                options: { keepSpecialComments: '*' }
+                options: {
+                    keepSpecialComments: '*',
+                    advanced: false
+                }
             },
             themes: {
                 files:   [{
@@ -144,7 +172,8 @@ module.exports = function (grunt) {
                     ext : '.min.css'
                 }],
                 options: {
-                    keepSpecialComments: '*'
+                    keepSpecialComments: '*',
+                    advanced: false
                 }
             }
         },
@@ -166,6 +195,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-wrap');
+    grunt.loadNpmTasks('grunt-exec');
 
     // build custom GitHub-Dark style using build.json settings
     grunt.registerTask('default', 'Building custom style', function(){
@@ -175,10 +205,16 @@ module.exports = function (grunt) {
         grunt.task.run(['wrap']);
       }
     });
+
+    // use perfectionist to clean up selectors
+    grunt.registerTask('clean', 'Cleaning up CSS file', function(){
+      grunt.task.run(['exec', 'string-replace:cleanup']);
+    });
+
     // build custom minified GitHub-Dark style
     grunt.registerTask('minify', 'Building custom minified style', function(){
       grunt.task.run(['string-replace:inline', 'cssmin:minify']);
-      if (!config.chrome) {
+      if (!(config.chrome || config.webkit)) {
         grunt.task.run(['wrap']);
       }
     });
@@ -199,6 +235,7 @@ module.exports = function (grunt) {
             'string-replace:inline',
             'string-replace:mark',
             'cssmin:minify',
+            'string-replace:min',
             'string-replace:unmark',
             'string-replace:fix',
             'wrap'

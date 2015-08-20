@@ -1,10 +1,10 @@
-/*! Mono Industrial */
+/*! Mono Industrial clear */
 .highlight, .ace_editor {
   background-color: #222C28 !important;
   color: #FFFFFF !important;
 }
 
-.pl-c                 { color: #666C68 !important; background-color: #151C19 !important; } /* comment */
+.pl-c                 { color: #666C68 !important; background-color: #304830 !important; } /* modified comment colour from original mono-industrial */
 .pl-c1                { color: #E98800 !important; } /* constant */
 .pl-e                 { color: #A8B3AB !important; } /* entity */
 .pl-en                { color: #FFFFFF !important; } /* entity.name */
@@ -47,9 +47,9 @@
 .pl-vpf               { color: #5778B6 !important; } /* variable.parameter.function */
 
 /* Diff - Example: https://gist.github.com/silverwind/904159f1e71e2e626375 */
-.pl-mi1               { color: #FFFFFF !important; background: rgba(0, 153, 0, 0.68) !important; } /* markup.inserted */
+.pl-mi1               { color: #FFFFFF !important; background: rgba(0, 150, 0, 0.68) !important; } /* markup.inserted colour has been edited*/
 .pl-mdht              { color: #FFFFFF !important; background: rgba(0, 153, 0, 0.68) !important; } /* meta.diff.header.to-file */
-.pl-md                { color: #FFFFFF !important; background: rgba(153, 0, 0, 0.68) !important; } /* markup.deleted */
+.pl-md                { color: #FFFFFF !important; background: rgba(196, 0, 0, 0.68) !important; } /* markup.deleted colour has been edited*/
 .pl-mdhf              { color: #FFFFFF !important; background: rgba(153, 0, 0, 0.68) !important; } /* meta.diff.header.from-file */
 .pl-id                { color: #FFFFFF !important; background: rgba(153, 0, 0, 0.68) !important; } /* invalid.deprecated */
 .pl-ii                { color: #FFFFFF !important; background: rgba(153, 0, 0, 0.68) !important; } /* invalid.illegal */
@@ -166,10 +166,10 @@
 .ace_editor .ace_variable.ace_parameter {
   color: #648BD2 !important;
 }
-
+/*I have modified the colour from original mono-industrial*/
 .ace_editor .ace_comment {
   color: #666C68 !important;
-  background-color: #151C19 !important;
+  background-color: #304830 !important;
 }
 
 .ace_editor .ace_entity.ace_other.ace_attribute-name {
